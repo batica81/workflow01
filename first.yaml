@@ -1,0 +1,44 @@
+name: CI for Custom Docker Image
+
+# Triggers the workflow when code is pushed to the main branch or a pull request is opened
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    # Use a hosted Ubuntu runner to set up the container environment
+    runs-on: ubuntu-24.04
+
+    # Use the custom Ubuntu Docker container
+    container:
+      image: docker.io/batica81/my-custom-ubuntu:001
+      options: --privileged  # Optional: Add Docker run options if needed
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up the environment and dependencies (if needed)
+      - name: Install dependencies
+        run: |
+          # Inside the custom Docker container
+          #sudo apt update
+          #sudo apt install -y make
+
+      # Step 3: Build your project
+      - name: Build the project
+        run: |
+          # Example build command inside the custom container
+          # make build
+          yarn cache list
+
+      # Step 4: Run tests
+      - name: Run tests
+        run: |
+          # Example test command inside the custom container
+          #make test
+          yarn
